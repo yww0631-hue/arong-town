@@ -1,0 +1,331 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../vendor/shadcn-tailwind-4.13.0.css";
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility scrollbar-gutter-stable {
+  scrollbar-gutter: stable;
+}
+
+:root {
+  --background: #160d08;
+  --foreground: #fff4e8;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --popover: #ffffff;
+  --popover-foreground: #171717;
+  --primary: #171717;
+  --primary-foreground: #fafafa;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #171717;
+  --muted: #f5f5f5;
+  --muted-foreground: #737373;
+  --accent: #f5f5f5;
+  --accent-foreground: #171717;
+  --destructive: #e7000b;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #a1a1a1;
+  --chart-1: #f54900;
+  --chart-2: #009689;
+  --chart-3: #104e64;
+  --chart-4: #ffb900;
+  --chart-5: #fe9a00;
+  --radius: 0.625rem;
+  --sidebar: #fafafa;
+  --sidebar-foreground: #171717;
+  --sidebar-primary: #171717;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #f5f5f5;
+  --sidebar-accent-foreground: #171717;
+  --sidebar-border: #e5e5e5;
+  --sidebar-ring: #a1a1a1;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: Arial, Helvetica, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --card: #171717;
+    --card-foreground: #ededed;
+    --popover: #171717;
+    --popover-foreground: #ededed;
+    --primary: #ededed;
+    --primary-foreground: #171717;
+    --secondary: #262626;
+    --secondary-foreground: #ededed;
+    --muted: #262626;
+    --muted-foreground: #a1a1a1;
+    --accent: #262626;
+    --accent-foreground: #ededed;
+    --destructive: #ff6467;
+    --border: #ffffff1a;
+    --input: #ffffff26;
+    --ring: #737373;
+    --chart-1: #8e51ff;
+    --chart-2: #00bc7d;
+    --chart-3: #fe9a00;
+    --chart-4: #ad46ff;
+    --chart-5: #ff2056;
+    --sidebar: #171717;
+    --sidebar-foreground: #ededed;
+    --sidebar-primary: #8e51ff;
+    --sidebar-primary-foreground: #ededed;
+    --sidebar-accent: #262626;
+    --sidebar-accent-foreground: #ededed;
+    --sidebar-border: #ffffff1a;
+    --sidebar-ring: #737373;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  overflow: hidden;
+}
+
+button { font: inherit; }
+
+/*
+ * 按背景照片中显像管的四个角裁切内容层。
+ * 右边和底边轻微收窄，使雪花、场景图都真正贴合电视的斜向透视，
+ * 而不是一块平视矩形覆盖在木框上。
+ */
+.tv-screen-shape {
+  clip-path: polygon(1.5% 1%, 99% 2.2%, 96.5% 96.5%, 3% 100%);
+  border-radius: 17% 14% 16% 15% / 14% 13% 17% 16%;
+  transform-origin: 52% 52%;
+}
+
+/* 放在全局样式中，避免开发预览对 styled-jsx 的模块兼容问题。 */
+@keyframes noise-shift {
+  0% { transform: translate3d(-2%, -2%, 0); }
+  25% { transform: translate3d(3%, 1%, 0); }
+  50% { transform: translate3d(-1%, 3%, 0); }
+  75% { transform: translate3d(2%, -3%, 0); }
+  100% { transform: translate3d(-3%, 2%, 0); }
+}
+
+@keyframes curtain-breeze {
+  0%, 100% { transform: rotate(0) skewX(0); }
+  50% { transform: rotate(1.4deg) skewX(-1deg); }
+}
+
+.curtain-sway { animation: curtain-breeze 5.5s ease-in-out infinite; }
+.curtain-sway-right { animation-delay: -2.75s; }
+.tv-noise::before,
+.tv-noise::after {
+  content: "";
+  position: absolute;
+  inset: -12%;
+  background-image: repeating-radial-gradient(circle at 35% 45%, #fff 0 .6px, #000 .8px 1.8px), repeating-linear-gradient(0deg, transparent 0 2px, rgba(255,255,255,.2) 3px 4px);
+  background-size: 4px 4px, 100% 5px;
+  mix-blend-mode: screen;
+  animation: noise-shift 150ms steps(2, end) infinite;
+}
+.tv-noise::after { opacity: .55; transform: scale(1.2); animation-direction: reverse; }
+.tv-noise-idle {
+  /* 显像管边缘自然压暗，并叠加一条很淡的垂直同步扫描带。 */
+  background:
+    linear-gradient(to bottom, transparent 0%, rgba(255,255,255,.08) 46%, rgba(255,255,255,.2) 50%, rgba(0,0,0,.08) 54%, transparent 100%),
+    radial-gradient(ellipse at center, transparent 48%, rgba(0,0,0,.48) 100%),
+    #161616;
+  background-size: 100% 180%, 100% 100%, 100% 100%;
+  animation: crt-scan-roll 5.8s linear infinite;
+  transform: perspective(900px) rotateY(-1.5deg) skewY(-0.35deg) scale(1.015);
+  transform-origin: right center;
+}
+.tv-noise-idle::before { opacity: .68; animation-duration: 190ms; }
+.tv-noise-idle::after { opacity: .3; animation-duration: 270ms; }
+.tv-noise-fast::before,
+.tv-noise-fast::after { animation-duration: 55ms; }
+
+@keyframes crt-scan-roll {
+  from { background-position: 0 -80%, 0 0, 0 0; }
+  to { background-position: 0 180%, 0 0, 0 0; }
+}
+
+section { scrollbar-width: none; }
+section::-webkit-scrollbar { display: none; }
+
+/* 毛线小镇：全屏横向世界，所有门和角色使用同一世界坐标。 */
+.yarn-experience { position:relative;width:100%;height:100svh;overflow:hidden;background:#241912;color:#fff3dc;font-family:Georgia,"Songti SC",serif; }
+.town-tv {position:absolute;inset:0;z-index:50;background:#241912;}
+.town-tv>img {width:100%;height:100%;object-fit:cover;}
+.tv-enter-hit {position:absolute;left:6%;top:5%;width:73%;height:92%;background:transparent;border:0;cursor:pointer;}
+.tv-enter-hit:focus-visible {outline:3px solid #f5d797;outline-offset:-10px;}
+.town-invite {position:absolute;bottom:4%;width:100%;text-align:center;font-size:16px;letter-spacing:.14em;text-shadow:0 2px 8px #000;pointer-events:none;}
+.town-view {position:absolute;inset:0;overflow:hidden;background:#5b4b39;}
+.town-world {position:absolute;left:0;will-change:transform;}
+.town-panorama {position:absolute;inset:0;width:100%;height:100%;user-select:none;pointer-events:none;}
+.house-door {position:absolute;transform:translateX(-50%);width:12%;background:transparent;border:none;cursor:pointer;color:#fff1d9;z-index:2;}
+.actor-camera {position:absolute;left:0;pointer-events:none;z-index:5;}
+.town-actor {position:absolute;width:120px;height:140px;margin-left:-60px;}
+.actor-puppet,.puppet-facing {width:100%;height:100%;position:relative;}
+.puppet-facing {filter:drop-shadow(0 12px 7px #25180b66);}
+.puppet-facing img {position:absolute;width:100%;height:100%;object-fit:contain;user-select:none;}
+.puppet-top {clip-path:inset(0 0 16% 0);}
+.left-foot {clip-path:inset(84% 50% 0 0);transform-origin:40% 84%;}
+.right-foot {clip-path:inset(84% 0 0 50%);transform-origin:60% 84%;}
+.town-toolbar {position:absolute;top:22px;left:24px;right:24px;display:flex;justify-content:space-between;align-items:center;z-index:10;pointer-events:none;}
+.town-toolbar span {text-shadow:0 2px 8px #000;font-size:18px;letter-spacing:.15em;}
+.town-toolbar button,.town-interior button {pointer-events:auto;border:1px solid #e4bd7c70;border-radius:30px;padding:12px 20px;background:#291f18dc;color:#fff0d8;cursor:pointer;font-size:14px;}
+.town-guide {position:absolute;bottom:0;left:0;right:0;padding:25px 16px 18px;text-align:center;background:linear-gradient(transparent,#231b16ed);z-index:10;}
+.town-guide p {font-size:14px;margin:0 0 12px;text-shadow:0 2px 5px #000;}
+.town-interior {position:absolute;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;padding:80px 24px 24px;}
+.town-interior header {position:absolute;top:22px;left:24px;right:24px;display:flex;align-items:center;justify-content:space-between;}
+.town-interior h1 {font-size:20px;letter-spacing:.15em;margin:0;}
+.room-original {height:100%;width:100%;object-fit:contain;filter:drop-shadow(0 18px 30px #0005);}
+@media(max-width:600px){.town-toolbar{left:12px;right:12px;top:14px}.town-toolbar span{font-size:14px}.town-actor{width:96px;height:112px;margin-left:-48px}.town-guide button{font-size:12px;padding:8px 10px}.town-guide p{font-size:12px}.town-interior{padding:75px 10px 20px}}
+.door-aperture {position:absolute;left:50%;transform:translateX(-50%);border-radius:45% 45% 2% 2%;background:#261508;perspective:700px;pointer-events:none;}
+.door-light {position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,#f9cb75,#714014);border-radius:inherit;box-shadow:0 0 24px #ffbb5070;}
+.door-panel {position:absolute;inset:0;border-radius:inherit;transform-origin:left center;backface-visibility:hidden;box-shadow:2px 1px 6px #0008;}
+.living-room {height:100%;width:100%;display:flex;align-items:center;justify-content:center;border:none;background:none;padding:0;cursor:pointer;}
+.living-room svg {height:100%;width:100%;filter:drop-shadow(0 18px 30px #0005);}
+.room-action-hint {position:absolute;bottom:10px;left:0;right:0;font-size:13px;color:#fff2da;text-align:center;}
+
+/* 入口公告栏：木框、纸页与双立柱，保持门口通行区域清晰。 */
+.town-notice{position:absolute;z-index:4;width:132px;height:174px;margin-left:-66px;border:0;background:none;color:#62412c;cursor:pointer;filter:drop-shadow(4px 8px 4px #38241455);}
+.notice-roof{position:absolute;z-index:3;top:0;left:-8px;width:148px;height:17px;background:linear-gradient(#b17841,#684125);border-radius:9px 9px 3px 3px;transform:rotate(-3deg);box-shadow:0 3px 0 #482a1c;}
+.notice-paper{position:absolute;z-index:2;inset:13px 0 39px;display:flex;align-items:center;justify-content:center;flex-direction:column;border:9px solid #976137;border-radius:7px;background:radial-gradient(ellipse at center,#fff4ce,#e8d1a3);box-shadow:inset 0 2px 7px #78512d66,0 3px 0 #563921;}
+.notice-pin{position:absolute;top:4px;width:6px;height:6px;border-radius:50%;background:#b95a4e;box-shadow:1px 2px 1px #0003;}
+.notice-paper small{font-size:10px;letter-spacing:.16em;margin-top:7px}.notice-paper strong{font-size:20px;margin:3px 0}.notice-paper em{font-size:10px;font-style:normal}.notice-sketch{color:#a46e3e;font-size:17px;line-height:18px}
+.notice-post{position:absolute;top:100px;bottom:0;left:14px;width:13px;border-radius:3px;background:linear-gradient(90deg,#654026,#ad784b,#6e432b);box-shadow:90px 0 0 #815334;z-index:1}
+.town-notice:focus-visible{outline:3px solid #ffe2a2;outline-offset:8px;border-radius:10px}
+.arong-notice-dialog{z-index:100!important;max-width:720px!important;max-height:85svh;overflow-y:auto;background:#f5e8ce!important;color:#654431!important;border:8px solid #98623d!important;border-radius:18px!important;box-shadow:0 25px 100px #0009!important;padding:32px!important;font-family:Georgia,"Songti SC",serif}
+.notice-close{position:absolute;right:12px;top:6px;font-size:28px;cursor:pointer}.notice-profile{display:flex;align-items:center;gap:24px}.notice-profile>img{width:30%;max-height:230px;object-fit:contain}.notice-eyebrow{font-size:11px;letter-spacing:.12em;color:#9b7259}.notice-profile h2{font-size:28px;line-height:1.4;margin:10px 0}.notice-profile p{font-size:15px;line-height:1.9;color:#795d49;margin-top:10px}.notice-story{border-top:1px dashed #b5926b;padding-top:18px}.notice-story summary{cursor:pointer;font-size:14px}.notice-story img{display:block;width:100%;height:auto;margin-top:18px}.notice-return{justify-self:start;padding:11px 18px;background:#805539;color:#fff3d8;border-radius:22px;font-size:13px;cursor:pointer}
+@media(max-width:600px){.arong-notice-dialog{padding:25px 16px!important}.notice-profile{gap:12px}.notice-profile h2{font-size:22px}.notice-profile p{font-size:13px}.notice-eyebrow{font-size:9px}}
+
+/* 横向房间镜头：背景和物件使用同一坐标，拖动不会误触物件。 */
+.explorable-room{position:relative;width:100%;height:100%;overflow:hidden;border-radius:24px;background:#32261e;box-shadow:0 20px 80px #0005}
+.room-landscape{position:absolute;height:100%;left:0;top:0;cursor:grab;touch-action:pan-y;outline-offset:-5px}.room-landscape:active{cursor:grabbing}
+.room-scene-image{position:absolute;width:100%;height:100%;object-fit:fill;pointer-events:none;user-select:none}
+.room-lamplight{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 72% 40%,#ffe7a4 0%,#f8b94866 35%,transparent 75%);mix-blend-mode:screen}
+.room-object{position:absolute;z-index:2}.town-interior .room-hotspot{display:flex;align-items:center;gap:7px;padding:5px 11px 5px 5px;border:1px solid #fff1c499;background:#3b2c24c9;box-shadow:0 4px 15px #0004;white-space:nowrap;transform:translate(-50%,-50%);font-size:12px}.room-hotspot>span{display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:#f2d29b;color:#65472e;font-size:19px}.room-hotspot small{font-size:12px}
+.object-response{position:absolute;left:0;top:-18px;pointer-events:none}.object-response>span{position:absolute;font-size:29px;text-shadow:0 0 9px #ffe5aa}.response-bubble>span{font-size:45px;color:#dbf7ff!important;text-shadow:0 0 12px #f8eaff}.response-steam>span{filter:blur(2px);color:white!important;font-size:35px}.response-duck>span{font-size:45px}
+.paint-mark{position:absolute;left:-40px;top:-37px;width:38px;height:9px;border-radius:50%;transform:rotate(-23deg);pointer-events:none;opacity:.8}.fabric-swatch{position:absolute;left:-20px;top:23px;width:40px;height:28px;transform:rotate(-12deg);border:2px dashed #fff8;pointer-events:none}
+.room-explore-controls{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;gap:16px;padding:28px 12px 12px;background:linear-gradient(transparent,#241910dc);pointer-events:none}.room-explore-controls p{font-size:13px;color:#fff1d8;text-align:center}.room-explore-controls span{display:inline-block;margin-left:12px;color:#ead099}.town-interior .room-explore-controls button{pointer-events:auto;padding:8px 16px;font-size:22px}
+.room-feedback{position:absolute;top:15px;left:50%;transform:translateX(-50%);padding:12px 22px;background:#fff1d8ec;color:#63482f;border-radius:30px;box-shadow:0 5px 25px #0002;font-size:14px;text-align:center;pointer-events:none;width:max-content;max-width:85%}
+@media(max-width:600px){.explorable-room{border-radius:16px}.room-explore-controls{gap:7px}.room-explore-controls p{font-size:11px}.room-explore-controls span{margin-left:4px}.town-interior .room-explore-controls button{padding:5px 12px}.room-feedback{font-size:12px}}
+
+/* 房间按地图整体缩放，坐标、碰撞与角色脚底保持一致。 */
+.room-map-shell{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.room-map{position:relative;width:min(100%,calc(100svh - 180px),850px);aspect-ratio:1;flex-shrink:0;background-size:300% 200%;background-repeat:no-repeat;box-shadow:inset 0 0 0 9px #35211599,0 20px 75px #0008;border-radius:12px;overflow:hidden;cursor:crosshair;outline-offset:4px;touch-action:manipulation}
+.room-map .map-furniture{position:absolute;padding:0;background:transparent;border:0;border-radius:12px;z-index:3;cursor:pointer;box-shadow:none}.map-furniture:hover,.map-furniture:focus-visible{outline:2px solid #ffe9ae99;background:#fff4b011}
+.map-object-dot{position:absolute;right:3%;bottom:1%;width:23px;height:23px;display:grid;place-items:center;border:1px solid #fff1bca6;border-radius:50%;color:#fff0cc;background:#5b3d27ba;font-size:17px}
+.map-object-name{position:absolute;bottom:0;left:50%;transform:translate(-50%,110%);opacity:0;white-space:nowrap;background:#38271deb;padding:7px 11px;border-radius:20px;font-size:13px;pointer-events:none}.map-furniture:hover .map-object-name,.map-furniture:focus-visible .map-object-name{opacity:1}
+.map-arong{position:absolute;width:9%;aspect-ratio:120/140;transform:translate(-50%,-100%);pointer-events:none;z-index:4}
+.natural-arong,.natural-facing{position:relative;width:100%;height:100%;pointer-events:none}.natural-facing img{position:absolute;width:100%;height:100%;object-fit:contain;user-select:none}.natural-body{clip-path:inset(0 0 15% 0);transform-origin:50% 86%}.natural-left{clip-path:inset(84% 50% 0 0);transform-origin:42% 86%}.natural-right{clip-path:inset(84% 0 0 50%);transform-origin:58% 86%}.arong-ground-shadow{position:absolute;width:55%;height:7%;left:22.5%;bottom:0;border-radius:50%;background:#3b25164d;filter:blur(2px)}
+.map-destination{position:absolute;width:20px;height:10px;border:2px solid #ffebae;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:2}
+.room-map .map-exit{position:absolute;left:50%;bottom:2%;transform:translateX(-50%);padding:5px 12px;background:#2d211cbf;border-color:#eace9877;font-size:12px;z-index:5;white-space:nowrap}
+.map-light{position:absolute;inset:0;background:radial-gradient(ellipse at 78% 32%,#ffd575,transparent 65%);mix-blend-mode:screen;pointer-events:none}
+.map-magic{position:absolute;z-index:5;pointer-events:none;color:#fbe6a4}.map-magic span{position:absolute;font-size:25px;text-shadow:0 0 10px #fce3ae}
+.map-instructions{font-size:14px;text-align:center;color:#fff0d5;line-height:1.6;margin:0}.map-instructions small{display:block;font-size:12px;color:#c5af94;margin-top:3px}
+@media(max-width:600px){.room-map{width:100%;border-radius:8px}.map-instructions{font-size:13px}.map-instructions small{font-size:11px}.map-object-dot{width:19px;height:19px;font-size:14px}.room-map .map-exit{font-size:10px;padding:3px 9px}}
+
+.arong-walk-canvas{position:absolute;height:110%;width:auto;aspect-ratio:1;left:50%;bottom:-4.4%;transform:translateX(-50%);pointer-events:none}.arong-render-fallback{width:100%;height:100%;object-fit:contain}
+
+.motion-review{min-height:100svh;padding:35px max(24px,calc((100vw - 1100px)/2));background:#251c22;color:#f5e6d8}.motion-review a{color:#e1b9a2}.motion-review h1{font-size:28px;margin:25px 0 10px}.motion-review p{color:#d0b6b0}.motion-review-controls{display:flex;flex-wrap:wrap;gap:22px;align-items:center;margin:28px 0}.motion-review-controls button,.motion-review-controls select{background:#eed1ba;color:#3c2930;border-radius:22px;border:0;padding:9px 18px;cursor:pointer;font-size:14px}.motion-review-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}.motion-review-grid section{border-radius:20px;padding:22px 16px;box-shadow:inset 0 0 0 1px #ffffff25}.motion-review-actor{width:100%;aspect-ratio:1;position:relative}.motion-review-grid h2{font-size:16px;text-align:center;color:white;text-shadow:0 1px 4px #0009;margin-top:20px}@media(max-width:700px){.motion-review-grid{grid-template-columns:repeat(2,1fr)}.motion-review{padding:24px 18px}}
+
+.real-room-shell{position:relative;width:100%;height:100%;overflow:hidden;border-radius:24px;background:#d8cdb2}.real-room-canvas{position:absolute;inset:0 0 100px}.real-room-canvas canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab;outline-offset:-4px}.real-room-canvas canvas:active{cursor:grabbing}.room-camera-buttons{position:absolute;top:14px;right:14px;display:flex;gap:7px}.town-interior .room-camera-buttons button{padding:8px 13px;background:#59492be8;color:#fff0d3;font-size:14px}.real-room-footer{position:absolute;bottom:0;left:0;right:0;padding:15px;text-align:center;background:linear-gradient(#eddfbfdf,#e1d0abeF);color:#4d442e}.real-room-footer p{margin:0 0 4px;font-size:15px}.real-room-footer small{font-size:12px;color:#7c6d50}.real-room-footer>div{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:10px}.town-interior .real-room-footer button{background:#80623ce8;padding:7px 13px;font-size:13px;color:#fff4dc}.real-room-footer button[aria-pressed=true]{box-shadow:0 0 0 2px #e8b0b1;background:#a36664}@media(max-width:600px){.real-room-canvas{bottom:155px}.real-room-footer p{font-size:13px}.real-room-footer small{font-size:10px}.real-room-footer{padding:12px 8px}.town-interior .real-room-footer button{font-size:11px;padding:7px 10px}.room-camera-buttons{top:8px;right:8px}}
+
+/* 像素世界：保留像素边缘，界面使用清晰的方形描边。 */
+.town-panorama,.door-panel,.room-map,.arong-walk-canvas{image-rendering:pixelated}
+.room-map{border-radius:0;box-shadow:0 0 0 4px #281a21,0 0 0 8px #a8784c,0 16px 0 #160f1680}
+.yarn-experience .town-toolbar button,.town-interior>header button,.room-map .map-exit{border-radius:0;border:2px solid #dfbd80;box-shadow:3px 3px 0 #241925;font-family:monospace}
+.room-map .map-furniture,.map-destination{border-radius:0}
+.map-arong{width:12%}
+.map-instructions{font-size:14px}.map-instructions small{font-size:12px}
+@media(max-width:600px){.room-map{border-radius:0}.room-map .map-exit{font-size:12px}}
+.interaction-label{position:absolute;left:50%;top:-24px;transform:translateX(-50%);white-space:nowrap;font-size:12px;color:#fff0ce;background:#332431;border:2px solid #dfbd80;padding:3px 8px;pointer-events:none;box-shadow:2px 2px 0 #1a1320}
+.interaction-label i{position:absolute;bottom:-2px;left:0;width:100%;height:3px;background:#eda1b3;transform-origin:left}
+.room-map .map-old-button{position:absolute;z-index:6;width:40px;height:40px;display:grid;place-items:center;padding:0;border:0;background:transparent;color:#d49b59;filter:drop-shadow(2px 3px 0 #271521);cursor:pointer;transform:translate(-50%,-50%)}
+.room-map .map-old-button:hover,.room-map .map-old-button:focus-visible{color:#ffe0a0;outline:2px dashed #ffe0a0;outline-offset:1px}
+.notice-collection{border-top:2px dashed #9c775b;padding-top:14px}.notice-collection h3{font-size:18px;margin:0 0 10px}.notice-collection p{font-size:14px;line-height:1.7;margin:5px 0}.collection-item{display:flex;gap:14px;align-items:flex-start}.collection-item>svg{flex-shrink:0;color:#9e6435}.collection-item small{font-size:13px}
+/* 收藏使用同一透明底像素原画，落地小图与手账大图保持一致。 */
+.room-map .map-old-button{width:48px;height:48px;filter:drop-shadow(1px 2px 0 #27152180)}
+.map-old-button img{width:40px;height:40px;object-fit:contain;image-rendering:pixelated;pointer-events:none}
+.collection-item{align-items:center;gap:20px;padding:18px;background:#e9d9ba;border:1px solid #bfa07b;box-shadow:inset 0 0 0 4px #f2e6cf}
+.collection-specimen{margin:0;flex:0 0 132px;display:grid;place-items:center;padding:10px;background:#f7ecd5;border:1px dashed #b59978}
+.collection-specimen img{display:block;width:126px;height:126px;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(2px 3px 0 #8e603622)}
+.collection-specimen figcaption{font-family:monospace;font-size:12px;letter-spacing:2px;color:#806347;margin-top:8px}
+.collection-description{min-width:0}.collection-origin{display:block;font-size:12px;color:#87634c;margin-bottom:6px}.collection-description strong{display:block;font-size:20px;color:#4c302c}.collection-description small{display:block;margin-top:10px;color:#78504a;line-height:1.7}
+@media(max-width:480px){.collection-item{gap:12px;padding:12px;align-items:flex-start}.collection-specimen{flex-basis:84px;padding:5px}.collection-specimen img{width:80px;height:80px}.collection-description strong{font-size:18px}}
+.town-van{position:absolute;z-index:7;transform:translateX(-50%);padding:0;border:0;background:transparent;cursor:pointer;filter:drop-shadow(0 5px 0 #47312455)}
+.town-van img{display:block;width:100%;height:auto;image-rendering:pixelated;pointer-events:none}.town-van span{display:block;width:max-content;max-width:100%;margin:0 auto;padding:4px 8px;background:#392d30;color:#fff0cc;border:2px solid #d6b383;font-size:14px;white-space:nowrap}.town-van:hover img{filter:brightness(1.12)}.town-van:focus-visible{outline:3px dashed #fff0bc;outline-offset:5px}
+.van-journey{position:absolute;inset:0;z-index:80;overflow:hidden;background:#9dbbaa;pointer-events:auto;display:grid;place-items:center}.journey-background{position:absolute;inset:0;width:120%;height:100%;object-fit:cover;image-rendering:pixelated;filter:brightness(.7)}.journey-van{position:absolute;width:clamp(210px,35vw,440px);top:48%;image-rendering:pixelated;filter:drop-shadow(0 9px 0 #2e232655)}.van-journey p{position:absolute;bottom:18%;padding:9px 18px;background:#30262e;color:#fff0ca;border:2px solid #d6b383;font-size:16px}.street-shop-dialog{background:#f4e3c5;color:#44312c;border:4px solid #775841}.street-shop-dialog>button{border-radius:0}
+.studio-layer{position:absolute;inset:0;z-index:65;background:#322325}.photo-studio{position:relative;width:100%;height:100%;overflow:hidden}.studio-scroll{width:100%;height:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;touch-action:pan-x}.studio-scroll::-webkit-scrollbar{display:none}.studio-world{position:relative;min-width:100%}.studio-backdrop{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;pointer-events:none;user-select:none}.studio-owner{position:absolute;border:0;background:transparent;cursor:pointer}.studio-owner span{position:absolute;bottom:5%;left:50%;transform:translateX(-50%);white-space:nowrap;background:#352528e8;border:2px solid #d5b17e;color:#f8e7bc;padding:6px 12px;font-size:14px}.studio-owner:hover span{background:#654437}.studio-frame{position:absolute;padding:7px;border:6px ridge #98704d;background:#e9d8b2;box-shadow:4px 6px 0 #29191c66;cursor:zoom-in}.studio-frame img{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;pointer-events:none}.studio-frame:focus-visible{outline:3px solid #fff4c9;outline-offset:5px}.studio-arong{position:absolute;width:120px;height:140px;margin-left:-60px;pointer-events:none;z-index:5}.studio-header{position:absolute;top:20px;left:20px;right:20px;display:flex;align-items:center;justify-content:space-between;pointer-events:none;color:#ffe7bd;text-shadow:2px 2px #241721}.studio-header button,.studio-replies button,.studio-photo-nav button{pointer-events:auto;padding:10px 14px;background:#3d292b;color:#ffe8c1;border:2px solid #b98e5c;cursor:pointer;font-size:14px}.studio-hint{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);width:max-content;max-width:90%;text-align:center;padding:7px 12px;background:#302125df;color:#ffe8c1;font-size:14px;pointer-events:none}.studio-conversation{background:#f4e3c4;border:4px solid #81583f;color:#3f292a}.studio-conversation [data-slot=dialog-description]{font-size:16px;line-height:1.8;color:#65483f}.studio-replies{display:flex;gap:8px;flex-wrap:wrap}.studio-lightbox{width:min(94vw,1200px)!important;max-width:1200px!important;max-height:94svh;overflow:auto;background:#231b1d;color:#f6e7ce;border:3px solid #947044}.studio-full-photo{display:block;width:100%;max-height:68svh;object-fit:contain}.studio-photo-nav{display:flex;gap:10px;justify-content:space-between}.studio-photo-nav button:disabled{opacity:.35;cursor:default}.studio-smoke{position:absolute;pointer-events:none;width:5px;height:5px;background:#dccbb7;z-index:2}
+@media(max-width:600px){.studio-header{top:12px;left:12px;right:12px;font-size:14px}.studio-hint{font-size:12px}.studio-frame{padding:4px;border-width:4px}.studio-photo-nav button{padding:8px;font-size:12px}}
+/* 场景是 65 层；Radix 门户必须在场景之上，否则打开后只锁住操作而看不到弹窗。 */
+body:has(.studio-layer) [data-slot="dialog-overlay"]{z-index:100}
+body:has(.studio-layer) [data-slot="dialog-content"]{z-index:101}
+.studio-scroll:focus{outline:none}
+/* 试衣镜与衣橱并排，不遮住主角；窄屏改为上下排列。 */
+.outfit-dialog{background:#302027!important;color:#fff4e4!important;border:3px solid #bb8861!important;width:min(880px,94vw)!important;max-width:880px!important;max-height:92dvh;overflow-y:auto}
+.outfit-dialog [data-slot=dialog-description]{color:#e5cbb8}
+.outfit-layout{display:grid;grid-template-columns:1fr 1.5fr;gap:24px;align-items:center}
+.outfit-mirror{position:relative;min-height:300px;background:#b5bac1;border:9px ridge #bc8b52;box-shadow:inset 0 0 35px #394450;border-radius:48% 48% 6px 6px;overflow:hidden;text-align:center}
+.outfit-preview{position:relative;width:220px;height:250px;max-width:100%;margin:20px auto 0}
+.outfit-mirror p{position:relative;color:#372735;background:#f5e2c8;padding:8px;font-size:16px}
+.outfit-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.outfit-grid button{position:relative;cursor:pointer;background:#503943;border:2px solid #927065;padding:8px 4px;color:#fff0dc;border-radius:5px;font-size:14px}
+.outfit-grid button.selected{border-color:#ffc1d8;background:#794959;box-shadow:0 0 12px #ff9bbb66}
+.outfit-thumb{position:relative;height:115px;width:100%}.outfit-grid small{display:block;color:#ffd5e4;font-size:12px}
+.outfit-done{background:#be8490;color:#241a1c;padding:12px;border-radius:5px;cursor:pointer;font-weight:700}
+.outfit-spark{position:absolute;inset:0;background:#fff7e8;pointer-events:none}
+@media(max-width:600px){.outfit-layout{grid-template-columns:1fr;gap:12px}.outfit-mirror{min-height:180px;width:180px;margin:auto}.outfit-preview{height:160px;width:140px;margin:0 auto}.outfit-thumb{height:95px}.outfit-mirror p{margin:0;font-size:14px}}
+.merch-item{position:absolute;display:flex;align-items:center;justify-content:center;border:0;background:transparent;cursor:zoom-in;z-index:3}.merch-item canvas{height:100%;width:100%;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(3px 5px 0 #291b2855);pointer-events:none}.merch-item span{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);white-space:nowrap;padding:3px 8px;background:#392524;color:#ffe9c6;font-size:14px;opacity:0;pointer-events:none}.merch-item:hover span,.merch-item:focus-visible span{opacity:1}.merch-item:focus-visible{outline:3px solid #ffd2a1;outline-offset:5px}
