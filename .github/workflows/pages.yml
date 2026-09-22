@@ -34,6 +34,18 @@ jobs:
           version: '11.19.0'
       - run: pnpm install --frozen-lockfile
       - run: pnpm build:pages
+      - name: Keep branch-based Pages identical to the game
+        run: |
+          cp -r pages-dist/assets .
+          cp -r pages-dist/images .
+          cp pages-dist/index.html .
+          cp pages-dist/favicon.svg .
+          touch .nojekyll pages-dist/.nojekyll
+          git add index.html favicon.svg .nojekyll assets images
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish built game at repository root"
+            git push
+          fi
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
