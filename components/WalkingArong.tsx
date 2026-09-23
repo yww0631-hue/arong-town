@@ -1,4 +1,5 @@
 "use client";
+import {sound} from "../lib/game-audio";
 import { useAnimationFrame } from "framer-motion";
 import { useEffect, useRef } from "react";
 import {useOutfit,outfits} from "./OutfitContext";
@@ -10,6 +11,8 @@ const decoded=new Map<string,HTMLCanvasElement[]>();
 /** 纯 Canvas 2D 像素动作帧；逐帧计算脚底锚点，走路不漂移。 */
 export default function WalkingArong({walking,direction=1,facing,frameDuration=135,outfit:override}:{outfit?:string;walking:boolean;direction?:number;facing?:ArongFacing;frameDuration?:number}){
  const {outfit}=useOutfit();
+ // 与走路状态绑定，停止或卸载立即清除脚步定时器。
+ useEffect(()=>{if(!walking)return;const id=setInterval(()=>sound("step"),frameDuration*3);return()=>clearInterval(id);},[walking,frameDuration]);
  const spriteSource=outfits.find(o=>o.id===(override??outfit))?.src??outfits[0].src;
  const canvas=useRef<HTMLCanvasElement>(null),frames=useRef<HTMLCanvasElement[]>([]);
  const clock=useRef(0),frame=useRef(0);

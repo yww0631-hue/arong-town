@@ -1,6 +1,8 @@
 "use client";
 import { AnimatePresence, motion, useAnimationFrame, useMotionValue } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import SoundControls from "./SoundControls";
+import {sound} from "../lib/game-audio";
 import MerchShop from "./MerchShop";
 import ClothingShop from "./ClothingShop";
 import PhotoStudio from "./PhotoStudio";
@@ -39,6 +41,7 @@ export default function YarnTown() {
   const finishKnitting=()=>setCollection(v=>({...v,knits:Math.min(3,v.knits+1)}));
   const collectButton=()=>setCollection(v=>v.knits>=3?{...v,button:true}:v);
   const [phase,setPhase] = useState<Phase>("idle");
+  useEffect(()=>{if(phase==="entering")sound("enter");else if(phase==="door")sound("door");else if(phase==="riding")sound("van");},[phase]);
   const [noticeOpen,setNoticeOpen] = useState(false);
   const noticeButton = useRef<HTMLButtonElement>(null);
   const [room,setRoom] = useState<number|null>(null);
@@ -167,6 +170,7 @@ export default function YarnTown() {
   const back=()=>{setSelectedDoor(null);setHoverDoor(null);destination.current=null;pointer.current=null;target.current=position.get();setPhase("town");};
   return (
     <main ref={viewport} className="yarn-experience">
+      <SoundControls/>
       <AnimatePresence>
         {(phase==="idle"||phase==="entering") && (
           <motion.div key="television" className="town-tv" initial={{opacity:1}} animate={{scale:phase==="entering"?3.6:1,opacity:phase==="entering"?0:1,filter:phase==="entering"?"blur(5px)":"blur(0px)"}} transition={{duration:1.9,ease:[.4,0,.15,1]}} style={{transformOrigin:`${tvLeft + tvWidth * .45}px ${tvTop + tvHeight * .47}px`}}>

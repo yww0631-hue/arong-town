@@ -2,6 +2,7 @@
 import { AnimatePresence, motion, useAnimationFrame, useMotionValue, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import {useOutfit} from "./OutfitContext";
+import {sound} from "../lib/game-audio";
 import InteractionArong from "./InteractionArong";
 import WalkingArong, { type ArongFacing } from "./WalkingArong";
 import { canWalk, findRoute, roomLayouts, type Point } from "@/lib/room-navigation";
@@ -50,6 +51,8 @@ export default function RoomMap({index,onExit,knitCount=0,buttonCollected=false,
   };
   useEffect(()=>{
     if(active===null)return;
+    const cue=index===1?"knit":index===2||index===3||index===4&&active===1?"water":"paper";
+    sound(cue);const audioTimer=setInterval(()=>sound(cue),850);
     const timer=setTimeout(()=>{
       setDone(v=>v.includes(active)?v:[...v,active]);
       if(index===2&&active===2)setLit(v=>!v);
@@ -59,7 +62,7 @@ export default function RoomMap({index,onExit,knitCount=0,buttonCollected=false,
       }else setMessage(feedback[index][active]);
       setActive(null);busy.current=false;
     },2800);
-    return()=>clearTimeout(timer);
+    return()=>{clearTimeout(timer);clearInterval(audioTimer);};
   },[active,cycle,index]);
   const walkTo=(goal:Point,action:number|null=null)=>{
     if(busy.current)return;
